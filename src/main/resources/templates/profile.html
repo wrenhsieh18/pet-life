@@ -2,6 +2,25 @@
 <html lang="en" xmlns:th="http://thymeleaf.org/">
 
 <head th:replace="fragments :: head"></head>
+<script>
+init = () => {
+    const address = document.getElementsByClassName("address");
+    const embeddedGoogleMap = document.getElementsByClassName("embeddedGoogleMap");
+
+    let request = "";
+
+    for (let i=0; i<=1; i++) {
+        let formattedAddress = address[i].innerHTML.replaceAll(" ","+").replaceAll(",","");
+        request = "https://maps.googleapis.com/maps/api/geocode/json?address=" + formattedAddress + "&key=AIzaSyDy9h7oaOiWb58wwvD8OqfdE0R5VmQBZqY";
+
+        fetch(request).then(response => response.json()).then( function (data) {
+        embeddedGoogleMap[i].src = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDy9h7oaOiWb58wwvD8OqfdE0R5VmQBZqY&q=place_id:" + data.results[0].place_id;
+        });
+    }
+}
+
+window.addEventListener("load", init);
+</script>
 
 <body>
 
@@ -35,9 +54,17 @@
             <td th:text="${user.alternativeNumber}"></td>
             </tr>
         <tr>
-            <th>Home Address</th>
-            <td th:text="${user.residentAddress}"></td>
+            <th style="border:none;">Home Address</th>
+            <td th:text="${user.residentAddress}" class="address" style="border:none;"></td>
             </tr>
+        </tr>
+        <tr>
+            <th></th>
+            <td>
+                <iframe
+                        class="embeddedGoogleMap">
+                </iframe>
+            </td>
         </tr>
         </thead>
 
@@ -45,14 +72,26 @@
         <div class="form-group" th:if="${role == 2}">
             <tr>
                 <th>Clinic Address</th>
-                <td th:text="${user.clinicAddress}"></td>
+                <td th:text="${user.clinicAddress}" class="address"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <iframe
+                            class="embeddedGoogleMap">
+                    </iframe>
+                </td>
             </tr>
         </div>
 
         </tr>
+
     </table>
+
+
 </div>
 
 <footer th:replace="fragments :: footer"></footer>
+
 </body>
 </html>
