@@ -37,4 +37,4 @@ This application is inspired by all pet lovers and their needs. We are designing
 
 # Created by
 Jenhsiang Hsieh & Amber Ridgeway
-<p>This application was built and finished by both Jenhsiang Hsieh and Amber Ridgeway on 6/13/22. Afterwards, Jenhsiang forked to his repository to keep developing this application.</p>
+<p>Both Jenhsiang and Amber were involved in this collaborative project. After 6/14/22, Jenhsiang forked this projectto his repository to keep developing this application.</p>
