@@ -2,6 +2,25 @@
 <html lang="en" xmlns:th="http://thymeleaf.org/">
 
 <head th:replace="fragments :: head"></head>
+<script>
+init = () => {
+    const address = document.getElementsByClassName("clinicAddress");
+    const embeddedGoogleMap = document.getElementsByClassName("embeddedGoogleMap");
+
+    let request = "";
+
+    for (let i=0; i<=1; i++) {
+        let formattedAddress = address[i].innerHTML.replaceAll(" ","+").replaceAll(",","");
+        request = "https://maps.googleapis.com/maps/api/geocode/json?address=" + formattedAddress + "&key=AIzaSyDy9h7oaOiWb58wwvD8OqfdE0R5VmQBZqY";
+
+        fetch(request).then(response => response.json()).then( function (data) {
+        embeddedGoogleMap[i].src = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDy9h7oaOiWb58wwvD8OqfdE0R5VmQBZqY&q=place_id:" + data.results[0].place_id;
+        });
+    }
+}
+
+window.addEventListener("load", init);
+</script>
 
 <body>
 
@@ -33,7 +52,15 @@
         </tr>
         <tr>
             <th class="vetHeader">Clinic Address</th>
-            <td th:text="${vet.clinicAddress}"></td>
+            <td th:text="${vet.clinicAddress}" class="clinicAddress" style="border-bottom: ;"></td>
+        </tr>
+        <tr th:unless="${vet.clinicAddress == null}">
+            <th></th>
+            <td>
+                <iframe
+                        class="embeddedGoogleMap">
+                </iframe>
+            </td>
         </tr>
     </table>
 
